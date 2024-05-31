@@ -11,19 +11,19 @@ document.addEventListener("DOMContentLoaded", () => {
             setupFilters(data);
         });
         
-        filtersContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag')) {
-                const tag = e.target.innerText;
-                if (selectedFilters.has(tag)) {
-                    selectedFilters.delete(tag);
-                    e.target.classList.remove('selected');
-                } else {
-                    selectedFilters.add(tag);
-                    e.target.classList.add('selected');
-                }
-                renderJobListings(data);
-            }
-        });
+        // filtersContainer.addEventListener('click', (e) => {
+        //     if (e.target.classList.contains('tag')) {
+        //         const tag = e.target.innerText;
+        //         if (selectedFilters.has(tag)) {
+        //             selectedFilters.delete(tag);
+        //             e.target.classList.remove('selected');
+        //         } else {
+        //             selectedFilters.add(tag);
+        //             e.target.classList.add('selected');
+        //         }
+        //         renderJobListings(data);
+        //     }
+        // });
 
     function renderJobListings(data) {
         jobListingsContainer.innerHTML = '';
@@ -89,3 +89,4 @@ document.addEventListener("DOMContentLoaded", () => {
         return [...selectedFilters].every(filter => jobTags.includes(filter));
     }
 });
+
