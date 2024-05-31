@@ -3,27 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtersContainer = document.querySelector('.filters');
     const clearButton = document.getElementById('clear');
     let selectedFilters = new Set();
+    let jobsData = [];
 
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
+            jobsData = data;  
             renderJobListings(data);
-            setupFilters(data);
+            setupFilters();
         });
-        
-        // filtersContainer.addEventListener('click', (e) => {
-        //     if (e.target.classList.contains('tag')) {
-        //         const tag = e.target.innerText;
-        //         if (selectedFilters.has(tag)) {
-        //             selectedFilters.delete(tag);
-        //             e.target.classList.remove('selected');
-        //         } else {
-        //             selectedFilters.add(tag);
-        //             e.target.classList.add('selected');
-        //         }
-        //         renderJobListings(data);
-        //     }
-        // });
 
     function renderJobListings(data) {
         jobListingsContainer.innerHTML = '';
@@ -41,29 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${job.featured ? '<span class="featured-badge">FEATURED</span>' : ''}
                             </div>
                             <div class="job-title">${job.position}
-                            <div class="tags">
-                        ${[job.role, job.level, ...job.languages, ...job.tools].map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
+                                <div class="tags">
+                                    ${[job.role, job.level, ...job.languages, ...job.tools].map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
                             </div>
                             <div class="job-details">
                                 <span>${job.postedAt}</span>
-                                <span>&mid dot;</span>
+                                <span>&middot;</span>
                                 <span>${job.contract}</span>
-                                <span>&mid dot;</span>
+                                <span>&middot;</span>
                                 <span>${job.location}</span>
                             </div>
                         </div>
                     </div>
-                    
                 `;
                 jobListingsContainer.appendChild(jobElement);
             }
         });
     }
 
-    function setupFilters(data) {
+    function setupFilters() {
         filtersContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag')) {
+            if (e.target.classList.contains('filter')) {
                 const filterValue = e.target.textContent;
                 if (selectedFilters.has(filterValue)) {
                     selectedFilters.delete(filterValue);
@@ -72,14 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     selectedFilters.add(filterValue);
                     e.target.classList.add('active');
                 }
-                renderJobListings(data);
+                renderJobListings(jobsData);  
             }
         });
 
         clearButton.addEventListener('click', () => {
             selectedFilters.clear();
-            filtersContainer.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-            renderJobListings(data);
+            filtersContainer.querySelectorAll('.filter').forEach(tag => tag.classList.remove('active'));
+            renderJobListings(jobsData);  
         });
     }
 
@@ -89,4 +76,3 @@ document.addEventListener("DOMContentLoaded", () => {
         return [...selectedFilters].every(filter => jobTags.includes(filter));
     }
 });
-
