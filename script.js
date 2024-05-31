@@ -40,7 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 ${job.new ? '<span class="new-badge">NEW!</span>' : ''}
                                 ${job.featured ? '<span class="featured-badge">FEATURED</span>' : ''}
                             </div>
-                            <div class="job-title">${job.position}</div>
+                            <div class="job-title">${job.position}
+                            <div class="tags">
+                        ${[job.role, job.level, ...job.languages, ...job.tools].map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                            </div>
                             <div class="job-details">
                                 <span>${job.postedAt}</span>
                                 <span>&mid dot;</span>
@@ -50,9 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>
                     </div>
-                    <div class="tags">
-                        ${[job.role, job.level, ...job.languages, ...job.tools].map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
+                    
                 `;
                 jobListingsContainer.appendChild(jobElement);
             }
